@@ -22,6 +22,7 @@
     "express": "4.15.3",
     "is-my-json-valid": "2.16.0",
     "mongodb": "2.2.27",
+    "request": "2.81.0",
     "uuid": "3.0.1"
   },
   "devDependencies": {
@@ -32,7 +33,7 @@
     "expect": "1.20.2",
     "istanbul": "0.4.5",
     "mocha": "3.4.2",
-    "request": "2.81.0",
+    "nock": "9.0.14",
     "sinon": "2.3.1",
     "supertest": "3.0.0",
     "tree-kill": "1.1.0"
