@@ -1,7 +1,6 @@
 'use strict';
 
 const async = require('async');
-const chai = require('chai');
 const expect = require('chai').expect;
 const kill = require('tree-kill');
 const path = require('path');
@@ -49,7 +48,7 @@ describe('integration/main', function() {
     this.cps.push(cp);
     cp.stdout.on('data', data => console.log(data.toString()));
     cp.stderr.on('data', data => {
-      console.log(data.toString())
+      console.log(data.toString());
       throw new Error('Received unexpected data on stderr');
     });
     this.pServerStarted = (() => {

@@ -3,7 +3,6 @@
 const chai = require('chai');
 const expect = require('chai').expect;
 const nock = require('nock');
-const request = require('supertest');
 const sinon = require('sinon');
 const ValidationError = require('./../../../lib/util/ValidationError');
 

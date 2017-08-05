@@ -3,7 +3,6 @@
 const chai = require('chai');
 const expect = require('chai').expect;
 const fs = require('fs');
-const request = require('supertest');
 const sinon = require('sinon');
 const tmp = require('tmp');
 const ValidationError = require('./../../../lib/util/ValidationError');
@@ -15,14 +14,6 @@ const writeJSONFile = function(filepath, json) {
 };
 const readJSONFile = function(filepath) {
   return JSON.parse(fs.readFileSync(filepath));
-};
-const createData = function() {
-  return {
-    timestamp: new Date().getTime(),
-    context: 'short',
-    measurement: 10,
-    unit: 'mm'
-  };
 };
 
 const createMeasurementObj = function() {

@@ -1,7 +1,5 @@
 'use strict';
 
-const chai = require('chai');
-const expect = require('chai').expect;
 const request = require('supertest');
 
 const createMeasurementObj = function() {
@@ -77,7 +75,7 @@ describe('/water-distance-measurement', function() {
     context('with valid API token', function() {
       
       beforeEach(function() {
-        this.headers.Authorization = `token ${this.validApiToken}`
+        this.headers.Authorization = `token ${this.validApiToken}`;
       });
     
       context('with valid payload', function() {
@@ -92,7 +90,7 @@ describe('/water-distance-measurement', function() {
             .set(this.headers)
             .expect(201)
             .expect(measurementObj)
-            .end(done)
+            .end(done);
         });
       });
         
@@ -124,7 +122,7 @@ describe('/water-distance-measurement', function() {
           .set(this.headers)
           .expect(401)
           .expect('Content-Type', 'application/json; charset=utf-8')
-          .end(done)
+          .end(done);
       });
     });
   });
