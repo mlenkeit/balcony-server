@@ -19,7 +19,7 @@ const mongodbConnect = require('./lib/model/mongodb-connector')({
   url: MONGO_DB_URI || SERVICES_CONFIG.mongodb.uri
 });
 
-const waterDistanceMeasurementRepo = require('./lib/model/water-distance-measurement-repository')({
+const waterDistanceMeasurementRepo = require('./lib/model/water-distance-measurement-mongo-repository')({
   connect: mongodbConnect,
   validate: require('./lib/validation').validateMeasurementObject
 });

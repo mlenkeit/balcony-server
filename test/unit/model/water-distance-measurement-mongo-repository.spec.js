@@ -19,9 +19,9 @@ const createMeasurementObj = function() {
   };
 };
 
-const repo = require('./../../../lib/model/water-distance-measurement-repository');
+const repo = require('./../../../lib/model/water-distance-measurement-mongo-repository');
 
-describe('model/water-distance-measurement-repository', function() {
+describe('model/water-distance-measurement-mongo-repository', function() {
   
   beforeEach(function() {
     this.mongodbConnect = require('./../../../lib/model/mongodb-connector')({
