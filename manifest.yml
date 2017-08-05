@@ -1,0 +1,9 @@
+---
+applications:
+  - name: traffic-lights
+    memory: 256M
+    services:
+      - mongodb-traffic-lights
+    env:
+      log_level: info
+      mongodb_service_name: mongodb-traffic-lights

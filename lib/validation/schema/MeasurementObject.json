@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Measurement Object",
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "required": true,
+      "type": "integer"
+    },
+    "sensor": {
+      "required": true,
+      "type": "string"
+    },
+    "measurementType": {
+      "required": true,
+      "type": "string"
+    },
+    "measurement": {
+      "required": true,
+      "type": "integer"
+    },
+    "measurementUnit": {
+      "required": true,
+      "type": "string"
+    }
+  }
+}

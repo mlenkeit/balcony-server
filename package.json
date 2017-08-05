@@ -1,0 +1,42 @@
+{
+  "name": "balcony-server",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "istanbul cover _mocha --report cobertura --report html -- test --colors --recursive",
+    "start": "node index.js",
+    "test": "mocha test --colors --recursive",
+    "testrunner": "mocha test --colors --recursive --watch"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Maximilian Lenkeit",
+  "license": "MIT",
+  "dependencies": {
+    "@sap/xsenv": "1.2.6",
+    "body-parser": "1.17.2",
+    "cf-nodejs-logging-support": "1.1.2",
+    "express": "4.15.3",
+    "is-my-json-valid": "2.16.0",
+    "mongodb": "2.2.27",
+    "uuid": "3.0.1"
+  },
+  "devDependencies": {
+    "async": "2.5.0",
+    "chai": "4.0.0",
+    "chai-http": "3.0.0",
+    "expect": "1.20.2",
+    "istanbul": "0.4.5",
+    "mocha": "3.4.2",
+    "request": "2.81.0",
+    "sinon": "2.3.1",
+    "supertest": "3.0.0",
+    "tree-kill": "1.1.0"
+  },
+  "engines": {
+    "node": ">7.0.0"
+  }
+}
