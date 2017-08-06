@@ -8,5 +8,5 @@ module.exports = function() {
     'measurementType': 'short',
     'measurement': 12 + counter++,
     'measurementUnit': 'mm'
-  }; 
+  };
 };
