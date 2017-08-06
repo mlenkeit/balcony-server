@@ -1,10 +1,6 @@
 sudo: required
 services:
 - docker
-before_install:
-- docker pull mongo
-- docker run -d -p 27017:27017 mongo
-- docker ps -a
 language: node_js
 node_js:
 - '6'
@@ -13,4 +9,15 @@ jobs:
     - stage: linting
       script: npm run lint
     - stage: unit tests
-      script: npm test
+      before_install:
+      - docker pull mongo
+      - docker run -d -p 27017:27017 mongo
+      - docker ps -a
+      script: npm run test:unit
+      script: npm run test:api
+    - stage: integration tests
+      before_install:
+      - docker pull mongo
+      - docker run -d -p 27017:27017 mongo
+      - docker ps -a
+      script: npm run test:integration

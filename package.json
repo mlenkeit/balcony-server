@@ -9,6 +9,9 @@
     "lint": "eslint lib test",
     "start": "node index.js",
     "test": "mocha test --colors --recursive",
+    "test:unit": "mocha test/unit --colors --recursive",
+    "test:api": "mocha test/api --colors --recursive",
+    "test:integration": "mocha test/api --colors --recursive --timeout=3500",
     "testrunner": "mocha test --colors --recursive --watch"
   },
   "keywords": [
