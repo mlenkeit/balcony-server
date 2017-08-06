@@ -28,6 +28,8 @@ describe('/health', function() {
     
     it('responds with 200 and returns a json status', function(done) {
       const pkg = require('./../../package.json');
+      const date = new Date();
+      this.repo.getLatestUpdateTimestamps.resolves([date.getTime()]);
       
       request(this.app)
         .get('/health/status')
@@ -36,6 +38,10 @@ describe('/health', function() {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(res => expect(res.body).to.have.property('status', 'ok'))
         .expect(res => expect(res.body).to.have.property('version', pkg.version))
+        .expect(res => {
+          expect(res.body)
+            .to.have.deep.property('latest-updates', [date.toString()]);
+        })
         .end(done);
     });
   });

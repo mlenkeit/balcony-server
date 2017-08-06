@@ -110,4 +110,63 @@ describe('model/water-distance-measurement-mongo-repository', function() {
       });
     });
   });
+  
+  describe('#getLatestUpdateTimestamps', function() {
+    
+    context('with no data', function() {
+    
+      it('resolves to an empty array', function() {
+        return this.repo.getLatestUpdateTimestamps()
+          .then(timestamps => {
+            expect(timestamps)
+              .to.be.an('array')
+              .and.to.have.lengthOf(0);
+          });
+      });
+    });
+    
+    context('with data in the db', function() {
+      
+      beforeEach(function() {
+        this.oldestTimestamp = new Date('2017-01-01').getTime();
+        this.latestTimestamp = new Date('2017-02-01').getTime();
+        this.oldestMeasurementObj = createMeasurementObj();
+        this.oldestMeasurementObj.timestamp = this.oldestTimestamp;
+        this.anotherOldestMeasurementObj = createMeasurementObj();
+        this.anotherOldestMeasurementObj.timestamp = this.oldestTimestamp;
+        this.latestMeasurementObj = createMeasurementObj();
+        this.latestMeasurementObj.timestamp = this.latestTimestamp;
+        
+        this.data = [
+          this.latestMeasurementObj,
+          this.oldestMeasurementObj,
+          this.anotherOldestMeasurementObj
+        ];
+        this.validate.returns(true);
+        return Promise.all(
+          this.data.map(data => this.repo.create(data))
+        );
+      });
+      
+      it('resolve to an array with the corresponding timestamps', function() {
+        return this.repo.getLatestUpdateTimestamps()
+          .then(timestamps => {
+            expect(timestamps)
+              .to.be.an('array')
+              .and.to.have.lengthOf(2)
+              .and.to.deep.equal([this.latestTimestamp, this.oldestTimestamp]);
+          });
+      });
+      
+      it('resolve to an array with the corresponding timestamps', function() {
+        return this.repo.getLatestUpdateTimestamps(1)
+          .then(timestamps => {
+            expect(timestamps)
+              .to.be.an('array')
+              .and.to.have.lengthOf(1)
+              .and.to.deep.equal([this.latestTimestamp]);
+          });
+      });
+    });
+  });
 });

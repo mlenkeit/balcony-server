@@ -6,6 +6,7 @@ module.exports = function() {
   
   return {
     create: sinon.stub(),
-    readAll: sinon.stub()
+    readAll: sinon.stub(),
+    getLatestUpdateTimestamps: sinon.stub()
   };
 };
