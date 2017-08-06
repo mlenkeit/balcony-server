@@ -11,8 +11,6 @@ node_js:
 - '6'
 script:
 - npm test
-after_success:
-- node scripts/travis-automatic-versioning.js
 deploy:
   provider: heroku
   api_key:
