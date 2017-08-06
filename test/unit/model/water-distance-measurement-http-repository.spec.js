@@ -14,10 +14,12 @@ const repo = require('./../../../lib/model/water-distance-measurement-http-repos
 describe('model/water-distance-measurement-http-repository', function() {
   
   beforeEach(function() {
+    this.apiToken = '123';
     this.uri = 'http://localhost:3333/wdm';
     this.validate = sinon.stub();
     
     this.repo = repo({
+      apiToken: this.apiToken,
       uri: this.uri,
       validate: this.validate
     });
@@ -33,12 +35,17 @@ describe('model/water-distance-measurement-http-repository', function() {
   });
   
   it('throws an exception when called without config.uri', function() {
-    expect(() => repo({ validate: this.validate }))
+    expect(() => repo({ apiToken: this.apiToken, validate: this.validate }))
       .to.throw();
   });
   
   it('throws an exception when called without config.validate', function() {
-    expect(() => repo({ uri: this.uri }))
+    expect(() => repo({ apiToken: this.apiToken, uri: this.uri }))
+      .to.throw();
+  });
+  
+  it('throws an exception when called without config.apiToken', function() {
+    expect(() => repo({ uri: this.uri, validate: this.validate }))
       .to.throw();
   });
   
@@ -50,6 +57,7 @@ describe('model/water-distance-measurement-http-repository', function() {
         this.measurementObj = createMeasurementObj();
         this.validate.returns(true);
         this.scope = nock('http://localhost:3333')
+          .matchHeader('Authorization', `token ${this.apiToken}`)
           .post('/wdm', 
             body => body.measurement === this.measurementObj.measurement)
           .reply(201, this.measurementObj);

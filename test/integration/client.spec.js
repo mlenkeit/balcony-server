@@ -39,6 +39,8 @@ describe('client.js', function() {
   beforeEach(function(done) {
     this.httpSpy.reset();
     
+    this.apiToken = '123';
+    
     const pythonScriptCwd = path.resolve(__dirname, './../fixture');
     const pythonScripts = [
       { name: 'short', command: 'vl53l0x-short-output.py', cwd: pythonScriptCwd},
@@ -62,6 +64,7 @@ describe('client.js', function() {
     env.measurements_filepath = this.measurementsFilepath;
     env.http_repo_uri = this.httpRepoUri;
     env.MONGODB_URI = this.mongodb_uri;
+    env.api_token = this.apiToken;
     const options = {
       cwd: path.resolve(__dirname, './../../'),
       env: env
@@ -98,6 +101,9 @@ describe('client.js', function() {
     const firstBody = this.httpSpy.args[0][1];
     expect(firstBody, 'match measurement schema')
       .to.satisfy(validateMeasurementObject);
+    const firstHeader = this.httpSpy.args[0][2].headers;
+    expect(firstHeader, 'api token in header')
+      .to.have.property('authorization', `token ${this.apiToken}`);
   });
   
   it('writes data to mongodb', function() {

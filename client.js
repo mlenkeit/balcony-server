@@ -19,6 +19,7 @@ const fileRepo = require('./lib/model/water-distance-measurement-file-repository
 
 const httpRepoUri = process.env.http_repo_uri;
 const httpRepo = require('./lib/model/water-distance-measurement-http-repository')({
+  apiToken: process.env.api_token,
   uri: httpRepoUri,
   validate: validateMeasurementObject
 });
