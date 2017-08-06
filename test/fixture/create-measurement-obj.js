@@ -7,6 +7,6 @@ module.exports = function() {
     'sensor': 'abc',
     'measurementType': 'short',
     'measurement': 12 + counter++,
-    'measurementUnit': 'mm' 
+    'measurementUnit': 'mm'
   };
 };

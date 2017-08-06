@@ -1,5 +1,6 @@
 'use strict';
 
+const createMeasurementObj = require('./../../fixture/create-measurement-obj');
 const expect = require('chai').expect;
 
 const validation = require('./../../../lib/validation/index');
@@ -10,13 +11,7 @@ describe('validation', function() {
     
     beforeEach(function() {
       this.validate = validation.validateMeasurementObject;
-      this.obj = {
-        'timestamp': new Date().getTime(),
-        'sensor': 'abc',
-        'measurementType': 'short',
-        'measurement': 12,
-        'measurementUnit': 'mm' 
-      };
+      this.obj = createMeasurementObj();
     });
     
     it('returns true for valid data', function() {
