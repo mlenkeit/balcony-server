@@ -10,10 +10,7 @@ language: node_js
 node_js:
 - '6'
 script:
-- npm run lint
-- npm run test:unit
-- npm run test:api
-- npm run test:integration
+- npm test
 deploy:
   provider: heroku
   api_key:

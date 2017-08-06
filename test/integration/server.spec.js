@@ -18,8 +18,7 @@ const createMeasurementObj = function() {
   };
 };
 
-describe('integration/main', function() {
-  this.timeout(2000);
+describe('server.js', function() {
   
   beforeEach(function() {
     this.cps = [];
