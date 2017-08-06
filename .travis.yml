@@ -2,8 +2,6 @@ sudo: required
 services:
 - docker
 before_install:
-- curl --version
-- curl http://[2a02:8071:1bd:8100:2c9c:2f9f:6a13:a76c]:3000
 - docker pull mongo
 - docker run -d -p 27017:27017 mongo
 - docker ps -a

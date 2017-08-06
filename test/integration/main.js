@@ -36,7 +36,7 @@ describe('integration/main', function() {
     this.port = 3010;
     
     const command = 'npm';
-    const args = ['start'];
+    const args = ['run', 'start:server'];
     const env = process.env;
     env.api_token = this.apiToken;
     env.PORT = this.port;
