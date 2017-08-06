@@ -104,7 +104,7 @@ describe('capture-distance', function() {
       const EVT_CREATED = 'created', EVT_RESOLVED = 'resolved';
       const p = captureDistance({
         pythonScripts: this.pythonScripts,
-        exec: function(command) {
+        exec: function(/*command*/) {
           const stub = sinon.stub().resolves('some output');
           events.push(EVT_CREATED);
           const res = stub.apply(null, arguments);

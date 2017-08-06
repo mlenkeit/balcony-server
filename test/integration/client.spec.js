@@ -2,7 +2,6 @@
 
 const bodyParser = require('body-parser');
 const chai = require('chai');
-let exec;
 const expect = require('chai').expect;
 const express = require('express');
 const fs = require('fs');
@@ -16,7 +15,6 @@ const validateMeasurementObject = require('./../../lib/validation').validateMeas
 chai.use(require('sinon-chai'));
 
 manageChildProcesses((patchedExec, patchedSpawn) => {
-  exec = patchedExec;
   spawn = patchedSpawn;
 });
 

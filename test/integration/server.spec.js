@@ -1,22 +1,12 @@
 'use strict';
 
 const async = require('async');
+const createMeasurementObj = require('./../fixture/create-measurement-obj');
 const expect = require('chai').expect;
 const kill = require('tree-kill');
 const path = require('path');
 const request = require('request');
 const spawn = require('child_process').spawn;
-
-const createMeasurementObj = function() {
-  createMeasurementObj.counter = createMeasurementObj.counter ? ++createMeasurementObj.counter : 1;
-  return {
-    'timestamp': new Date().getTime(),
-    'sensor': 'abc',
-    'measurementType': 'short',
-    'measurement': 12 + createMeasurementObj.counter,
-    'measurementUnit': 'mm' 
-  };
-};
 
 describe('server.js', function() {
   

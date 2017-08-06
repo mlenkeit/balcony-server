@@ -1,16 +1,7 @@
 'use strict';
 
+const createMeasurementObj = require('./../fixture/create-measurement-obj');
 const request = require('supertest');
-
-const createMeasurementObj = function() {
-  return {
-    'timestamp': new Date().getTime(),
-    'sensor': 'abc',
-    'measurementType': 'short',
-    'measurement': 12,
-    'measurementUnit': 'mm' 
-  };
-};
 
 const app = require('./../../lib/app');
 

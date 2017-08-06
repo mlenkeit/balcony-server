@@ -1,6 +1,7 @@
 'use strict';
 
 const chai = require('chai');
+const createMeasurementObj = require('./../../fixture/create-measurement-obj');
 const expect = require('chai').expect;
 const fs = require('fs');
 const sinon = require('sinon');
@@ -14,17 +15,6 @@ const writeJSONFile = function(filepath, json) {
 };
 const readJSONFile = function(filepath) {
   return JSON.parse(fs.readFileSync(filepath));
-};
-
-const createMeasurementObj = function() {
-  createMeasurementObj.counter = createMeasurementObj.counter ? ++createMeasurementObj.counter : 1;
-  return {
-    'timestamp': new Date().getTime(),
-    'sensor': 'abc',
-    'measurementType': 'short',
-    'measurement': 12 + createMeasurementObj.counter,
-    'measurementUnit': 'mm' 
-  };
 };
 
 const repo = require('./../../../lib/model/water-distance-measurement-file-repository');
