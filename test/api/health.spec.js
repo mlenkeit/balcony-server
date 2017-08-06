@@ -19,7 +19,7 @@ describe('/health', function() {
     this.repo = require('./../util/mock-water-distance-measurement-repository')();
     
     this.app = app({
-      apiToken: this.validApiToken,
+      apiToken: '123',
       waterDistanceMeasurementRepo: this.repo
     });
   });
