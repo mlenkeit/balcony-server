@@ -6,18 +6,12 @@ node_js:
 - '6'
 jobs:
   include:
-    - stage: linting
+    - stage: testing
+      before_install:
+      - docker pull mongo
+      - docker run -d -p 27017:27017 mongo
+      - docker ps -a
       script: npm run lint
-    - stage: unit tests
-      before_install:
-      - docker pull mongo
-      - docker run -d -p 27017:27017 mongo
-      - docker ps -a
-      script: npm run test:unit
-      script: npm run test:api
-    - stage: integration tests
-      before_install:
-      - docker pull mongo
-      - docker run -d -p 27017:27017 mongo
-      - docker ps -a
-      script: npm run test:integration
+    - script: npm run test:unit
+    - script: npm run test:api
+    - script: npm run test:integration
