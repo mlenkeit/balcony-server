@@ -27,6 +27,7 @@ describe('/health', function() {
   describe('GET /status', function() {
     
     it('responds with 200 and returns a json status', function(done) {
+      const pkg = require('./../../package.json');
       
       request(this.app)
         .get('/health/status')
@@ -34,6 +35,7 @@ describe('/health', function() {
         .expect(200)
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(res => expect(res.body).to.have.property('status', 'ok'))
+        .expect(res => expect(res.body).to.have.property('version', pkg.version))
         .end(done);
     });
   });
