@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Public Plug SysInfo Object",
+  "type": "object",
+  "properties": {
+    "err_code": {
+      "required": true,
+      "type": "integer"
+    },
+    "type": {
+      "required": true,
+      "type": "string"
+    },
+    "model": {
+      "required": true,
+      "type": "string"
+    },
+    "deviceId": {
+      "required": true,
+      "type": "string"
+    },
+    "alias": {
+      "required": true,
+      "type": "string"
+    },
+    "dev_name": {
+      "required": true,
+      "type": "string"
+    },
+    "icon_hash": {
+      "required": true,
+      "type": "string"
+    },
+    "relay_state": {
+      "required": true,
+      "type": "integer"
+    },
+    "on_time": {
+      "required": true,
+      "type": "integer"
+    },
+    "active_mode": {
+      "required": true,
+      "type": "string"
+    },
+    "feature": {
+      "required": true,
+      "type": "string"
+    },
+    "updating": {
+      "required": true,
+      "type": "integer"
+    },
+    "rssi": {
+      "required": true,
+      "type": "integer"
+    }
+  }
+}
