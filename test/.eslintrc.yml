@@ -3,3 +3,5 @@ env:
 rules:
   no-unused-vars:
     - 1
+  no-console:
+    - off
