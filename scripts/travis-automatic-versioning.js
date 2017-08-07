@@ -1,16 +1,17 @@
 'use strict';
 
-const execSync = require('child_process').execSync;
 const fs = require('fs');
 const path = require('path');
 
-const pkg = require('./../package.json');
 const commit = process.env.TRAVIS_COMMIT;
-const newVersion = pkg.version + '-' + commit;
-
-const command = `npm version ${newVersion} --no-git-tag-version`;
-const options = {
-  cwd: path.resolve(__dirname, './..'),
-  env: process.env
+const buildNumber = process.env.TRAVIS_BUILD_NUMBER;
+const now = new Date();
+const datetime = JSON.stringify(now).substr(1).slice(0, -1); // remove leading/trailing quote
+const metadata = {
+  buildNumber: buildNumber,
+  commit: commit,
+  datetime: datetime
 };
-execSync(command, options);
+
+const filepath = path.resolve(__dirname, './../build-metadata.json');
+fs.writeFileSync(filepath, JSON.stringify(metadata, null, '  '));

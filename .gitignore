@@ -10,3 +10,4 @@ settings.xml
 .DS_Store
 coverage/
 *.log
+build-metadata.json
