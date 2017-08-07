@@ -12,10 +12,6 @@ const app = require('./../../lib/app-pi');
 
 describe('app-pi', function() {
   
-  before('mute logger', function() {
-    require('cf-nodejs-logging-support').setLoggingLevel('silent');
-  });
-  
   beforeEach(function() {
     this.validApiToken = '123';
     this.invalidApiToken = '999';

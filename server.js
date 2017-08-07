@@ -1,7 +1,7 @@
 'use strict';
 
-const cfLogging = require('cf-nodejs-logging-support');
 const fs = require('fs');
+const logger = require('heroku-logger');
 const path = require('path');
 const uuid = require('uuid/v4');
 const xsenv = require('@sap/xsenv');
@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 3000;
 const SERVICES_CONFIG = xsenv.getServices({
   mongodb: process.env.mongodb_service_name
 });
-cfLogging.setLoggingLevel(process.env.log_level || 'error');
 
 const mongodbConnect = require('./lib/model/mongodb-connector')({
   url: MONGO_DB_URI || SERVICES_CONFIG.mongodb.uri
@@ -36,5 +35,5 @@ const app = require('./lib/app')({
 });
 
 app.listen(PORT, function() {
-  console.log(`Server started on port ${PORT}`);
+  logger.info(`Server started on port ${PORT}`);
 });

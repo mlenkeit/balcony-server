@@ -1,8 +1,8 @@
 'use strict';
 
 const assert = require('assert');
-const cfLogging = require('cf-nodejs-logging-support');
 const fs = require('fs');
+const logger = require('heroku-logger');
 const path = require('path');
 const uuid = require('uuid/v4');
 const xsenv = require('@sap/xsenv');
@@ -16,9 +16,14 @@ assert(tomatoesPlugDeviceId, 'missing env var PLUG_DEVICE_ID_TOMATOES');
 const balconyPlugDeviceId = process.env.PLUG_DEVICE_ID_BALCONY;
 assert(balconyPlugDeviceId, 'missing env var PLUG_DEVICE_ID_BALCONY');
 
+logger.info('Running with plug device ids', {
+  PLUG_DEVICE_ID_PUMP: pumpPlugDeviceId,
+  PLUG_DEVICE_ID_TOMATOES: tomatoesPlugDeviceId,
+  PLUG_DEVICE_ID_BALCONY: balconyPlugDeviceId
+});
+
 const API_TOKEN = process.env.API_TOKEN || uuid();
 const PORT = process.env.PORT || 3000;
-cfLogging.setLoggingLevel(process.env.LOG_LEVEL || 'error');
 
 const buildMetadataFilepath = path.resolve(__dirname, './build-metadata.json');
 const buildMetadata = fs.existsSync(buildMetadataFilepath) ? require(buildMetadataFilepath) : {};
@@ -63,5 +68,5 @@ const app = require('./lib/app-pi')({
 });
 
 app.listen(PORT, function() {
-  console.log(`Server started on port ${PORT}`);
+  logger.info(`Server started on port ${PORT}`);
 });
