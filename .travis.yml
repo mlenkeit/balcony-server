@@ -11,11 +11,14 @@ node_js:
 - '6'
 script:
 - npm test
+after_success:
+- node ./scripts/travis-automatic-versioning.js
 deploy:
   provider: heroku
   api_key:
     secure: HTovZFl3fvos9nxLn85VtVaSXwWlDY2aV7Xamv9uHMcc1+PbxM0QoXiNqdSjvvf+7fCHu0pK/z47rUX0IA2KQEoi/6QCNY66d5Pu88Qi0IgIIF5TUMZWcQeECLZCrbdUTBL1I8Txzw0s0uFk//CNQNEwQz7NNHFcNepsrWqNfnLlYT4EUnuEbqqZg7T9MMl6nRF+OG0bfi/yVQBEtCD3REsXpyDiWwcPWG3Ntvhabum5tkG1uUi1ucAxA5mRGhs6vRyJ9YBQcoD07K9aGIJwzh/t0WZD9H85COgmiHUAfT7djtU5IsjKlEAYaiWNx4x1o9dhui2946a0XP5eFb8IUjl/q0OSFITBbQoKaEpxdArzt29N+JhtfQcnFGJ/wf9fXvocqfvwSHFAkoJowdsVO+SH8V7R6gX9w2/L8tO+jscvOrcRYHvxNna3RXWJiyGWVEd/IE9F9ThkmEaPJgzAvmU48zJQTBbW9m1yeESR2/hr9Cb4CoHxW1ZWltAl6c0zc2g79AmXeCJjnr2XGiJF4jye8/HiUhB5c9kecsiRCvMGeDQAC6TN21OQBtOJm4dxHGQy3o1aUGbkd+N/8J3nL1/QJk7w0HjfhWxdLRaCirHznNmiydgqGI3ZjZetfH8wKes2jTKa7LypcAZqxPiLBBlEZC4czWFPhYZJYLJRLo0=
   app: ml-balcony-server
+  skip_cleanup: true
 cache:
   directories:
   - node_modules
