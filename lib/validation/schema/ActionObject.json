@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Action Object",
+  "type": "object",
+  "properties": {
+    "action": {
+      "required": true,
+      "type": "string"
+    },
+    "parameters": {
+      "required": false,
+      "type": "array",
+      "items": {
+        "title": "Action Parameter",
+        "type": "string"
+      }
+    }
+  }
+}
