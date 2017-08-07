@@ -3,6 +3,7 @@
 const async = require('async');
 const createMeasurementObj = require('./../fixture/create-measurement-obj');
 const expect = require('chai').expect;
+const fs = require('fs');
 const kill = require('tree-kill');
 const path = require('path');
 const request = require('request');
@@ -18,6 +19,22 @@ describe('server.js', function() {
     async.each(this.cps, (cp, cb) => {
       kill(cp.pid, 'SIGKILL', err => cb());
     }, done);
+  });
+  
+  beforeEach('set-up build-metadata', function() {
+    this.buildMetadataFilepath = path.resolve(__dirname, './../../build-metadata.json');
+    this.buildMetadata = {
+      buildNumber: '1',
+      commit: '123',
+      datetime: 'date'
+    };
+    fs.writeFileSync(this.buildMetadataFilepath, JSON.stringify(this.buildMetadata));
+  });
+  
+  afterEach('clean-up build-metadata', function() {
+    if (fs.existsSync(this.buildMetadataFilepath)) {
+      fs.unlinkSync(this.buildMetadataFilepath);
+    }
   });
   
   beforeEach(function() {
@@ -53,6 +70,21 @@ describe('server.js', function() {
   });
   
   describe('endpoints', function() {
+    
+    it('GET /health/status contains data from build-metadata.json', function(done) {
+      this.pServerStarted.then(() => {
+        request.get({
+          uri: `http://localhost:${this.port}/health/status`,
+          json: true
+        }, (err, res, body) => {
+          expect(err).to.equal(null);
+          expect(res.statusCode).to.equal(200);
+          expect(body).to.be.an('object');
+          expect(body).to.have.deep.property('build-metadata', this.buildMetadata);
+          done();
+        });
+      });
+    });
   
     it('GET /water-distance-measurement returns an array', function(done) {
       this.pServerStarted.then(() => {

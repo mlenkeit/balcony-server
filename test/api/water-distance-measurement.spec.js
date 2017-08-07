@@ -23,6 +23,7 @@ describe('/water-distance-measurement', function() {
     
     this.app = app({
       apiToken: this.validApiToken,
+      buildMetadata: {},
       waterDistanceMeasurementRepo: this.repo
     });
   });

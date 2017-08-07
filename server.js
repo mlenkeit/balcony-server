@@ -1,6 +1,8 @@
 'use strict';
 
 const cfLogging = require('cf-nodejs-logging-support');
+const fs = require('fs');
+const path = require('path');
 const uuid = require('uuid/v4');
 const xsenv = require('@sap/xsenv');
 
@@ -24,15 +26,14 @@ const waterDistanceMeasurementRepo = require('./lib/model/water-distance-measure
   validate: require('./lib/validation').validateMeasurementObject
 });
 
+const buildMetadataFilepath = path.resolve(__dirname, './build-metadata.json');
+const buildMetadata = fs.existsSync(buildMetadataFilepath) ? require(buildMetadataFilepath) : {};
+
 const app = require('./lib/app')({
   apiToken: API_TOKEN,
+  buildMetadata: buildMetadata,
   waterDistanceMeasurementRepo: waterDistanceMeasurementRepo
 });
-// app._router.stack.forEach(function(r){
-//   if (r.route && r.route.path){
-//     console.log(r.route.path)
-//   }
-// })
 
 app.listen(PORT, function() {
   console.log(`Server started on port ${PORT}`);

@@ -15,11 +15,17 @@ describe('/health', function() {
     this.headers = {
       'Accept': 'application/json'
     };
+    this.buildMetadata = {
+      buildNumber: '1',
+      commit: '123',
+      datetime: 'date'
+    };
     
     this.repo = require('./../util/mock-water-distance-measurement-repository')();
     
     this.app = app({
       apiToken: '123',
+      buildMetadata: this.buildMetadata,
       waterDistanceMeasurementRepo: this.repo
     });
   });
@@ -38,6 +44,7 @@ describe('/health', function() {
         .expect('Content-Type', 'application/json; charset=utf-8')
         .expect(res => expect(res.body).to.have.property('status', 'ok'))
         .expect(res => expect(res.body).to.have.property('version', pkg.version))
+        .expect(res => expect(res.body).to.have.deep.property('build-metadata', this.buildMetadata))
         .expect(res => {
           expect(res.body)
             .to.have.deep.property('latest-updates', [date.toString()]);
