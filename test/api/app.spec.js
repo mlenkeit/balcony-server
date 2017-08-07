@@ -21,12 +21,14 @@ describe('app', function() {
       'Accept': 'application/json'
     };
     
-    this.repo = require('./../util/mock-water-distance-measurement-repository')();
+    this.linqueRepo = require('./../util/mock-linque-repo')();
+    this.waterDistanceMeasurementRepo = require('./../util/mock-water-distance-measurement-repository')();
     
     this.app = app({
       apiToken: this.validApiToken,
       buildMetadata: this.buildMetadata,
-      waterDistanceMeasurementRepo: this.repo
+      linqueRepo: this.linqueRepo,
+      waterDistanceMeasurementRepo: this.waterDistanceMeasurementRepo
     });
   });
   
@@ -49,6 +51,96 @@ describe('app', function() {
     });
   });
   
+  describe('/linque', function() {
+    
+    describe('GET /', function() {
+      
+      context('with valid API token', function() {
+        
+        beforeEach(function() {
+          this.headers.Authorization = `token ${this.validApiToken}`;
+        });
+        
+        it('responds with 200 and latest link info', function(done) {
+          const linkInfo = {
+            url: 'http://test.com',
+            last_update: '123'
+          };
+          this.linqueRepo.findOne.resolves(linkInfo);
+          request(this.app)
+            .get('/linque')
+            .set(this.headers)
+            .expect(200)
+            .expect(linkInfo)
+            .end(done);
+        });
+        
+      });
+      
+      context('with invalid API token', function() {
+        
+        beforeEach(function() {
+          this.headers.Authorization = `token ${this.invalidApiToken}`;
+        });
+        
+        it('responds with 401', function(done) {
+          request(this.app)
+            .get('/linque')
+            .set(this.headers)
+            .expect(401)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .end(done);
+        });
+      });
+    });
+      
+    describe('PUT /', function() {
+      
+      context('with valid API token', function() {
+        
+        beforeEach(function() {
+          this.headers.Authorization = `token ${this.validApiToken}`;
+        });
+        
+        it('responds with 204 and update the link repo', function(done) {
+          const linkInfo = {
+            url: 'http://test.com'
+          };
+          this.linqueRepo.update.withArgs(linkInfo).resolves();
+          request(this.app)
+            .put('/linque')
+            .send(linkInfo)
+            .set(this.headers)
+            .expect(204)
+            .expect(() => expect(this.linqueRepo.update).to.be.calledWith(linkInfo))
+            .end(done);
+        });
+        
+      });
+      
+      context('with invalid API token', function() {
+        
+        beforeEach(function() {
+          this.headers.Authorization = `token ${this.invalidApiToken}`;
+        });
+        
+        it('responds with 401', function(done) {
+          const linkInfo = {
+            url: 'http://test.com'
+          };
+          request(this.app)
+            .put('/linque')
+            .send(linkInfo)
+            .set(this.headers)
+            .expect(401)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .end(done);
+        });
+      });
+    });
+    
+  });
+  
   describe('/water-distance-measurement', function() {
     
     describe('GET /', function() {
@@ -57,7 +149,7 @@ describe('app', function() {
         const expList = [
           createMeasurementObj()
         ];
-        this.repo.readAll.resolves(expList);
+        this.waterDistanceMeasurementRepo.readAll.resolves(expList);
         
         request(this.app)
           .get('/water-distance-measurement')
@@ -69,7 +161,7 @@ describe('app', function() {
       });
       
       it('responds with 500 when the repo fails', function(done) {
-        this.repo.readAll.rejects();
+        this.waterDistanceMeasurementRepo.readAll.rejects();
         
         request(this.app)
           .get('/water-distance-measurement')
@@ -85,7 +177,7 @@ describe('app', function() {
       
       it('responds with 200 and contains some stats', function(done) {
         const date = new Date();
-        this.repo.getLatestUpdateTimestamps.resolves([date.getTime()]);
+        this.waterDistanceMeasurementRepo.getLatestUpdateTimestamps.resolves([date.getTime()]);
         
         request(this.app)
           .get('/water-distance-measurement/stats')
@@ -105,7 +197,7 @@ describe('app', function() {
     describe('POST /', function() {
       
       beforeEach(function() {
-        this.repo.create.resolves();
+        this.waterDistanceMeasurementRepo.create.resolves();
       });
       
       context('with valid API token', function() {
@@ -118,7 +210,7 @@ describe('app', function() {
           
           it('responds with 201 and the created object', function(done) {
             const measurementObj = createMeasurementObj();
-            this.repo.create.resolves(measurementObj);
+            this.waterDistanceMeasurementRepo.create.resolves(measurementObj);
             
             request(this.app)
               .post('/water-distance-measurement')

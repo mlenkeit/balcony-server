@@ -24,6 +24,9 @@ const waterDistanceMeasurementRepo = require('./lib/model/water-distance-measure
   connect: mongodbConnect,
   validate: require('./lib/validation').validateMeasurementObject
 });
+const linqueRepo = require('./lib/model/linque-repo')({
+  connect: mongodbConnect
+});
 
 const buildMetadataFilepath = path.resolve(__dirname, './build-metadata.json');
 const buildMetadata = fs.existsSync(buildMetadataFilepath) ? require(buildMetadataFilepath) : {};
@@ -31,6 +34,7 @@ const buildMetadata = fs.existsSync(buildMetadataFilepath) ? require(buildMetada
 const app = require('./lib/app')({
   apiToken: API_TOKEN,
   buildMetadata: buildMetadata,
+  linqueRepo: linqueRepo,
   waterDistanceMeasurementRepo: waterDistanceMeasurementRepo
 });
 
