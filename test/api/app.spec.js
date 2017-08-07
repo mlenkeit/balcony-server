@@ -6,7 +6,7 @@ const request = require('supertest');
 
 const app = require('./../../lib/app');
 
-describe('app', function() {
+describe.only('app', function() {
   
   before('mute logger', function() {
     require('cf-nodejs-logging-support').setLoggingLevel('silent');
@@ -40,9 +40,6 @@ describe('app', function() {
       
       it('responds with 200 and returns a json status', function(done) {
         const pkg = require('./../../package.json');
-        const date = new Date();
-        this.repo.getLatestUpdateTimestamps.resolves([date.getTime()]);
-        
         request(this.app)
           .get('/health/status')
           .set(this.headers)
@@ -51,10 +48,6 @@ describe('app', function() {
           .expect(res => expect(res.body).to.have.property('status', 'ok'))
           .expect(res => expect(res.body).to.have.property('version', pkg.version))
           .expect(res => expect(res.body).to.have.deep.property('build-metadata', this.buildMetadata))
-          .expect(res => {
-            expect(res.body)
-              .to.have.deep.property('latest-updates', [date.toString()]);
-          })
           .end(done);
       });
     });
@@ -88,6 +81,27 @@ describe('app', function() {
           .expect(500)
           .expect('Content-Type', 'application/json; charset=utf-8')
           .end(done);
+      });
+      
+    });
+    
+    describe('GET /stats', function() {
+      
+      it('responds with 200 and contains some stats', function(done) {
+        const date = new Date();
+        this.repo.getLatestUpdateTimestamps.resolves([date.getTime()]);
+        
+        request(this.app)
+          .get('/water-distance-measurement/stats')
+          .set(this.headers)
+          .expect(200)
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(res => {
+            expect(res.body)
+              .to.have.deep.property('latest-updates', [date.toString()]);
+          })
+          .end(done);
+        
       });
       
     });
