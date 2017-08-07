@@ -1,25 +1,18 @@
 'use strict';
 
-const async = require('async');
 const createMeasurementObj = require('./../fixture/create-measurement-obj');
 const expect = require('chai').expect;
 const fs = require('fs');
-const kill = require('tree-kill');
+const manageChildProcesses = require('./../util/manage-child-processes');
 const path = require('path');
 const request = require('request');
-const spawn = require('child_process').spawn;
+let spawn;
+
+manageChildProcesses((patchedExec, patchedSpawn) => {
+  spawn = patchedSpawn;
+});
 
 describe('server.js', function() {
-  
-  beforeEach(function() {
-    this.cps = [];
-  });
-  
-  afterEach(function(done) {
-    async.each(this.cps, (cp, cb) => {
-      kill(cp.pid, 'SIGKILL', err => cb());
-    }, done);
-  });
   
   beforeEach('set-up build-metadata', function() {
     this.buildMetadataFilepath = path.resolve(__dirname, './../../build-metadata.json');
@@ -51,7 +44,6 @@ describe('server.js', function() {
       env: env
     };
     const cp = spawn(command, args, options);
-    this.cps.push(cp);
     cp.stdout.on('data', data => console.log(data.toString()));
     cp.stderr.on('data', data => {
       console.log(data.toString());
