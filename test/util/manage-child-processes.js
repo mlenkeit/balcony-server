@@ -32,7 +32,7 @@ module.exports = function(cb) {
   afterEach(function(done) {
     async.each(childProcesses, function(cp, cb) {
       var pid = cp.pid;
-      kill(pid, 'SIGKILL', function(err) {
+      kill(pid, 'SIGKILL', function(/*err*/) {
         cb();
       });
     }, done);

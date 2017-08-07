@@ -50,7 +50,7 @@ describe('server.js', function() {
       throw new Error('Received unexpected data on stderr');
     });
     this.pServerStarted = (() => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve/*, reject*/) => {
         cp.stdout.on('data', data => {
           const matches = /port (\d+)/i.exec(data.toString());
           if (matches) {

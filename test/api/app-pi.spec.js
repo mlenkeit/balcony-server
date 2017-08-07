@@ -110,7 +110,7 @@ describe('app-pi', function() {
               .set(this.headers)
               .expect(201)
               .expect('Content-Type', 'application/json; charset=utf-8')
-              .expect(res => expect(this.startIrrigationValve).to.be.calledWith(this.valveId))
+              .expect(() => expect(this.startIrrigationValve).to.be.calledWith(this.valveId))
               .end(done);
           });
         });
@@ -132,7 +132,7 @@ describe('app-pi', function() {
               .set(this.headers)
               .expect(201)
               .expect('Content-Type', 'application/json; charset=utf-8')
-              .expect(res => expect(this.stopIrrigationValve).to.be.calledWith(this.valveId))
+              .expect(() => expect(this.stopIrrigationValve).to.be.calledWith(this.valveId))
               .end(done);
           });
         });
@@ -262,7 +262,7 @@ describe('app-pi', function() {
                 .set(this.headers)
                 .expect(201)
                 .expect('Content-Type', 'application/json; charset=utf-8')
-                .expect(res => expect(this.powerOn).to.be.calledWith(this.deviceId))
+                .expect(() => expect(this.powerOn).to.be.calledWith(this.deviceId))
                 .end(done);
             });
           });
@@ -284,7 +284,7 @@ describe('app-pi', function() {
                 .set(this.headers)
                 .expect(201)
                 .expect('Content-Type', 'application/json; charset=utf-8')
-                .expect(res => expect(this.powerOff).to.be.calledWith(this.deviceId))
+                .expect(() => expect(this.powerOff).to.be.calledWith(this.deviceId))
                 .end(done);
             });
           });
@@ -350,7 +350,7 @@ describe('app-pi', function() {
               .set(this.headers)
               .expect(201)
               .expect('Content-Type', 'application/json; charset=utf-8')
-              .expect(res => expect(this.captureDistance).to.be.calledOnce)
+              .expect(() => expect(this.captureDistance).to.be.calledOnce)
               .end(done);
           });
         });
