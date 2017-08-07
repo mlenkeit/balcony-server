@@ -16,9 +16,9 @@ assert(tomatoesPlugDeviceId, 'missing env var PLUG_DEVICE_ID_TOMATOES');
 const balconyPlugDeviceId = process.env.PLUG_DEVICE_ID_BALCONY;
 assert(balconyPlugDeviceId, 'missing env var PLUG_DEVICE_ID_BALCONY');
 
-const API_TOKEN = process.env.api_token || uuid();
+const API_TOKEN = process.env.API_TOKEN || uuid();
 const PORT = process.env.PORT || 3000;
-cfLogging.setLoggingLevel(process.env.log_level || 'error');
+cfLogging.setLoggingLevel(process.env.LOG_LEVEL || 'error');
 
 const buildMetadataFilepath = path.resolve(__dirname, './build-metadata.json');
 const buildMetadata = fs.existsSync(buildMetadataFilepath) ? require(buildMetadataFilepath) : {};
