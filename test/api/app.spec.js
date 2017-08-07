@@ -6,7 +6,7 @@ const request = require('supertest');
 
 const app = require('./../../lib/app');
 
-describe.only('app', function() {
+describe('app', function() {
   
   before('mute logger', function() {
     require('cf-nodejs-logging-support').setLoggingLevel('silent');
