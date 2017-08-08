@@ -119,5 +119,20 @@ describe('server-pi.js', function() {
       });
     });
     
+    it('POST /sensor-action is acknowledged', function(done) {
+      this.pServerStarted.then(() => {
+        request.post({
+          uri: `http://localhost:${this.port}/sensor-action`,
+          json: { action: 'capture-distance' },
+          headers: {
+            Authorization: `token ${this.apiToken}`
+          }
+        }, (err, res/*, body*/) => {
+          expect(err).to.equal(null);
+          expect(res.statusCode).to.equal(201);
+          done();
+        });
+      });
+    });
   });
 });

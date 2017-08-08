@@ -86,7 +86,7 @@ const app = require('./lib/app-pi')({
   apiToken: API_TOKEN,
   buildMetadata: buildMetadata,
   captureDistance: function() {
-    captureDistance({
+    return captureDistance({
       exec: exec,
       pythonScripts: pythonScripts,
       repos: [
