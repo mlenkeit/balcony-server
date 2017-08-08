@@ -40,6 +40,25 @@ describe('model/water-distance-measurement-mongo-repository', function() {
       .to.throw();
   });
   
+  describe('#count', function() {
+    
+    beforeEach(function() {
+      this.data = [
+        createMeasurementObj(),
+        createMeasurementObj()
+      ];
+      this.validate.returns(true);
+      return Promise.all(
+        this.data.map(data => this.repo.create(data))
+      );
+    });
+    
+    it('resolve to the number of records', function() {
+      return expect(this.repo.count())
+        .to.eventually.equal(this.data.length);
+    });
+  });
+  
   describe('#create', function() {
 
     context('with valid data', function() {

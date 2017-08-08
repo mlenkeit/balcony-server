@@ -219,6 +219,8 @@ describe('app', function() {
       it('responds with 200 and contains some stats', function(done) {
         const date = new Date();
         this.waterDistanceMeasurementRepo.getLatestUpdateTimestamps.resolves([date.getTime()]);
+        const count = 5;
+        this.waterDistanceMeasurementRepo.count.resolves(count);
         
         request(this.app)
           .get('/water-distance-measurement/stats')
@@ -227,7 +229,10 @@ describe('app', function() {
           .expect('Content-Type', 'application/json; charset=utf-8')
           .expect(res => {
             expect(res.body)
-              .to.have.deep.property('latest-updates', [date.toString()]);
+              .to.have.deep.property('latestUpdates')
+              .with.lengthOf(1);
+            expect(res.body)
+              .to.have.property('totalNumberOfRecords', count);
           })
           .end(done);
         
