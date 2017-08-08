@@ -94,6 +94,47 @@ describe('app', function() {
       });
     });
       
+    describe('GET /forward', function() {
+      
+      context('with valid API token', function() {
+        
+        beforeEach(function() {
+          this.headers.Authorization = `token ${this.validApiToken}`;
+        });
+        
+        it('responds with 302 redirect', function(done) {
+          const linkInfo = {
+            url: 'http://test.com',
+            last_update: '123'
+          };
+          this.linqueRepo.findOne.resolves(linkInfo);
+          request(this.app)
+            .get('/linque/forward')
+            .set(this.headers)
+            .expect(302)
+            .expect('location', linkInfo.url)
+            .end(done);
+        });
+        
+      });
+      
+      context('with invalid API token', function() {
+        
+        beforeEach(function() {
+          this.headers.Authorization = `token ${this.invalidApiToken}`;
+        });
+        
+        it('responds with 401', function(done) {
+          request(this.app)
+            .get('/linque/forward')
+            .set(this.headers)
+            .expect(401)
+            .expect('Content-Type', 'application/json; charset=utf-8')
+            .end(done);
+        });
+      });
+    });
+      
     describe('PUT /', function() {
       
       context('with valid API token', function() {
