@@ -262,20 +262,6 @@ describe('app', function() {
               .end(done);
           });
         });
-          
-        // context('with in status', function() {
-        //   
-        //   it('responds with 400', function(done) {
-        //     request(this.app)
-        //       .put(`/status/${this.validDeviceSerialNumber}`)
-        //       .send({ status: 'blue' })
-        //       .set('Accept', 'application/json')
-        //       .set('Authorization', `token ${this.validApiToken}`)
-        //       .expect(400)
-        //       .expect('Content-Type', 'application/json; charset=utf-8')
-        //       .end(done)
-        //   });
-        // });
       });
       
       context('with invalid API token', function() {
