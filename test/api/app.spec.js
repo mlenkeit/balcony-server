@@ -252,6 +252,8 @@ describe('app', function() {
               .to.have.property('short');
             expect(res.body.recentAverage[0])
               .to.have.property('long');
+            expect(res.body.recentAverage[0])
+              .to.have.property('date');
           })
           .end(done);
         
