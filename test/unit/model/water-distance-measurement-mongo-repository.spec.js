@@ -64,13 +64,13 @@ describe('model/water-distance-measurement-mongo-repository', function() {
     beforeEach(function() {
       this.rawData = [{
         date: new Date('2017-08-01'),
-        measurements: [10, 20, 30]
+        measurements: [100, 200, 300]
       }, {
         date: new Date('2017-08-02'),
-        measurements: [1, 2, 3]
+        measurements: [10, 20, 30]
       }, {
         date: new Date('2017-08-03'),
-        measurements: [100, 200, 300]
+        measurements: [1000, 2000, 3000]
       }];
       this.data = this.rawData.reduce((arr, item) => {
         item.measurements.forEach(m => {
@@ -97,8 +97,8 @@ describe('model/water-distance-measurement-mongo-repository', function() {
           expect(result)
             .to.be.an('array')
             .and.to.have.lengthOf(this.rawData.length * 2);
-          const excludeAbove300 = result.some(item => item.avgAmount === 200);
-          expect(excludeAbove300).to.be.false;
+          const excludeAbove3000 = result.some(item => item.avgAmount === 2000);
+          expect(excludeAbove3000).to.be.false;
           // console.log(result);
           // console.log(result.length);
         });
