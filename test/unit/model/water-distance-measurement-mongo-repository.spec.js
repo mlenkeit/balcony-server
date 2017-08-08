@@ -97,6 +97,8 @@ describe('model/water-distance-measurement-mongo-repository', function() {
           expect(result)
             .to.be.an('array')
             .and.to.have.lengthOf(this.rawData.length * 2);
+          const excludeAbove300 = result.some(item => item.avgAmount === 200);
+          expect(excludeAbove300).to.be.false;
           // console.log(result);
           // console.log(result.length);
         });
