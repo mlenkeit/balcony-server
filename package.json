@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "coverage": "istanbul cover _mocha --report cobertura --report html -- test --colors --recursive",
-    "lint": "eslint lib test",
+    "lint": "eslint lib test client.js server-pi.js server.js",
     "start:client": "node client.js",
     "start:server": "node server.js",
     "test": "npm run lint && istanbul cover _mocha --report cobertura --report html -- test/unit test/api test/integration --colors --recursive",
