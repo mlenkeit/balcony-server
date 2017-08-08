@@ -59,6 +59,50 @@ describe('model/water-distance-measurement-mongo-repository', function() {
     });
   });
   
+  describe('#getAverage', function() {
+    
+    beforeEach(function() {
+      this.rawData = [{
+        date: new Date('2017-08-01'),
+        measurements: [10, 20, 30]
+      }, {
+        date: new Date('2017-08-02'),
+        measurements: [1, 2, 3]
+      }, {
+        date: new Date('2017-08-03'),
+        measurements: [100, 200, 300]
+      }];
+      this.data = this.rawData.reduce((arr, item) => {
+        item.measurements.forEach(m => {
+          const mO = createMeasurementObj();
+          mO.timestamp = item.date.getTime();
+          mO.measurement = m;
+          arr.push(mO);
+          const m1 = Object.assign({}, mO);
+          m1.measurementType = 'long';
+          arr.push(m1);
+        });
+        return arr;
+      }, []);
+      this.validate.returns(true);
+      return Promise.all(
+        this.data.map(data => this.repo.create(data))
+      );
+    });
+    
+    it('returns the average measurement by timestamp', function() {
+      return expect(this.repo.getAverage())
+        .to.eventually.be.fulfilled
+        .then(result => {
+          expect(result)
+            .to.be.an('array')
+            .and.to.have.lengthOf(this.rawData.length * 2);
+          // console.log(result);
+          // console.log(result.length);
+        });
+    });
+  });
+  
   describe('#create', function() {
 
     context('with valid data', function() {

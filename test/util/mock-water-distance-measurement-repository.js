@@ -8,6 +8,7 @@ module.exports = function() {
     count: sinon.stub(),
     create: sinon.stub(),
     readAll: sinon.stub(),
-    getLatestUpdateTimestamps: sinon.stub()
+    getLatestUpdateTimestamps: sinon.stub(),
+    getAverage: sinon.stub()
   };
 };

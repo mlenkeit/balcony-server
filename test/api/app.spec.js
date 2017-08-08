@@ -221,6 +221,18 @@ describe('app', function() {
         this.waterDistanceMeasurementRepo.getLatestUpdateTimestamps.resolves([date.getTime()]);
         const count = 5;
         this.waterDistanceMeasurementRepo.count.resolves(count);
+        this.waterDistanceMeasurementRepo.getAverage.resolves([ { _id: { timestamp: 1501718400000, measurementType: 'long' },
+          avgAmount: 200 },
+        { _id: { timestamp: 1501718400000, measurementType: 'short' },
+          avgAmount: 200 },
+        { _id: { timestamp: 1501632000000, measurementType: 'long' },
+          avgAmount: 2 },
+        { _id: { timestamp: 1501632000000, measurementType: 'short' },
+          avgAmount: 2 },
+        { _id: { timestamp: 1501545600000, measurementType: 'long' },
+          avgAmount: 20 },
+        { _id: { timestamp: 1501545600000, measurementType: 'short' },
+          avgAmount: 20 } ]);
         
         request(this.app)
           .get('/water-distance-measurement/stats')
@@ -233,6 +245,13 @@ describe('app', function() {
               .with.lengthOf(1);
             expect(res.body)
               .to.have.property('totalNumberOfRecords', count);
+            expect(res.body.recentAverage)
+              .to.be.an('array')
+              .and.to.have.lengthOf(3);
+            expect(res.body.recentAverage[0])
+              .to.have.property('short');
+            expect(res.body.recentAverage[0])
+              .to.have.property('long');
           })
           .end(done);
         
