@@ -103,6 +103,7 @@ const app = require('./lib/app-pi')({
     });
   },
   plugRepo: plugRepo,
+  plugStateRepo: plugStateRepo,
   powerOn: powerOn,
   powerOff: powerOff,
   startIrrigationValve: startIrrigationValve,

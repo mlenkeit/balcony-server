@@ -27,6 +27,7 @@ describe('app-pi', function() {
     
     this.hs100Client = require('./../util/mock-hs100-api-client')();
     this.plugRepo = require('./../util/mock-plug-repo')();
+    this.plugStateRepo = require('./../util/mock-plug-state-repo')();
     
     this.captureDistance = sinon.stub().resolves();
     this.powerOn = sinon.stub().resolves();
@@ -40,6 +41,7 @@ describe('app-pi', function() {
       captureDistance: this.captureDistance,
       hs100Client: this.hs100Client,
       plugRepo: this.plugRepo,
+      plugStateRepo: this.plugStateRepo,
       powerOn: this.powerOn,
       powerOff: this.powerOff,
       startIrrigationValve: this.startIrrigationValve,
@@ -306,6 +308,28 @@ describe('app-pi', function() {
       });
       
     });
+  });
+  
+  describe('/plug-states', function() {
+    
+    describe('GET /', function() {
+    
+      it('responds with 200 and returns an array of plug states', function(done) {
+        const plugStates = [
+          
+        ];
+        this.plugStateRepo.readAll.resolves(plugStates);
+        request(this.app)
+          .get('/plug-states')
+          .set(this.headers)
+          .expect(200)
+          .expect('Content-Type', 'application/json; charset=utf-8')
+          .expect(plugStates)
+          .end(done);
+      });
+      
+    });
+    
   });
   
   describe('/sensor-action', function() {
