@@ -18,19 +18,19 @@ const HTTP_REPO_URI = process.env.HTTP_REPO_URI;
 assert(HTTP_REPO_URI, 'missing env var HTTP_REPO_URI');
 const MONGODB_URI = process.env.MONGODB_URI;
 assert(MONGODB_URI, 'missing env var MONGODB_URI');
-const pumpPlugDeviceId = process.env.PLUG_DEVICE_ID_PUMP;
-assert(pumpPlugDeviceId, 'missing env var PLUG_DEVICE_ID_PUMP');
-const tomatoesPlugDeviceId = process.env.PLUG_DEVICE_ID_TOMATOES;
-assert(tomatoesPlugDeviceId, 'missing env var PLUG_DEVICE_ID_TOMATOES');
-const balconyPlugDeviceId = process.env.PLUG_DEVICE_ID_BALCONY;
-assert(balconyPlugDeviceId, 'missing env var PLUG_DEVICE_ID_BALCONY');
-const pythonScriptsFilepath = process.env.PYTHON_SCRIPTS_FILEPATH;
-assert(pythonScriptsFilepath, 'missing env var PYTHON_SCRIPTS_FILEPATH');
+const PLUG_DEVICE_ID_PUMP = process.env.PLUG_DEVICE_ID_PUMP;
+assert(PLUG_DEVICE_ID_PUMP, 'missing env var PLUG_DEVICE_ID_PUMP');
+const PLUG_DEVICE_ID_TOMATOES = process.env.PLUG_DEVICE_ID_TOMATOES;
+assert(PLUG_DEVICE_ID_TOMATOES, 'missing env var PLUG_DEVICE_ID_TOMATOES');
+const PLUG_DEVICE_ID_BALCONY = process.env.PLUG_DEVICE_ID_BALCONY;
+assert(PLUG_DEVICE_ID_BALCONY, 'missing env var PLUG_DEVICE_ID_BALCONY');
+const PYTHON_SCRIPTS_FILEPATH = process.env.PYTHON_SCRIPTS_FILEPATH;
+assert(PYTHON_SCRIPTS_FILEPATH, 'missing env var PYTHON_SCRIPTS_FILEPATH');
 
 logger.info('Running with plug device ids', {
-  PLUG_DEVICE_ID_PUMP: pumpPlugDeviceId,
-  PLUG_DEVICE_ID_TOMATOES: tomatoesPlugDeviceId,
-  PLUG_DEVICE_ID_BALCONY: balconyPlugDeviceId
+  PLUG_DEVICE_ID_PUMP: PLUG_DEVICE_ID_PUMP,
+  PLUG_DEVICE_ID_TOMATOES: PLUG_DEVICE_ID_TOMATOES,
+  PLUG_DEVICE_ID_BALCONY: PLUG_DEVICE_ID_BALCONY
 });
 
 const API_TOKEN = process.env.API_TOKEN || uuid();
@@ -72,20 +72,20 @@ const startIrrigationValve = setIrrigationValve({
   plugRepo: plugRepo,
   plugOn: powerOn,
   plugOff: powerOff,
-  pumpPlugDeviceId: pumpPlugDeviceId,
+  pumpPlugDeviceId: PLUG_DEVICE_ID_PUMP,
   value: true,
-  valvePlugDeviceIds: [tomatoesPlugDeviceId, balconyPlugDeviceId]
+  valvePlugDeviceIds: [PLUG_DEVICE_ID_TOMATOES, PLUG_DEVICE_ID_BALCONY]
 });
 const stopIrrigationValve = setIrrigationValve({
   plugRepo: plugRepo,
   plugOn: powerOn,
   plugOff: powerOff,
-  pumpPlugDeviceId: pumpPlugDeviceId,
+  pumpPlugDeviceId: PLUG_DEVICE_ID_PUMP,
   value: false,
-  valvePlugDeviceIds: [tomatoesPlugDeviceId, balconyPlugDeviceId]
+  valvePlugDeviceIds: [PLUG_DEVICE_ID_TOMATOES, PLUG_DEVICE_ID_BALCONY]
 });
 
-const pythonScriptsStr = fs.readFileSync(pythonScriptsFilepath);
+const pythonScriptsStr = fs.readFileSync(PYTHON_SCRIPTS_FILEPATH);
 const pythonScripts = JSON.parse(pythonScriptsStr);
 const captureDistance = require('./lib/capture-distance');
 
