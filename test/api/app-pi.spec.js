@@ -1,6 +1,7 @@
 'use strict';
 
 const chai = require('chai');
+const createPlugStateObject = require('./../fixture/create-plug-state-obj');
 const expect = require('chai').expect;
 const request = require('supertest');
 const sinon = require('sinon');
@@ -328,6 +329,22 @@ describe('app-pi', function() {
           .end(done);
       });
       
+    });
+    
+    describe('PUT /:deviceId', function() {
+      
+      it('responds with 200 and updates the plug state', function(done) {
+        const plugStateObj = createPlugStateObject();
+        this.plugStateRepo.upsert.withArgs(plugStateObj).resolves();
+        request(this.app)
+          .put('/plug-states/' + plugStateObj.deviceId)
+          .send(plugStateObj)
+          .set(this.headers)
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .expect(() => expect(this.plugStateRepo.upsert).to.be.called)
+          .end(done);
+      });
     });
     
   });
