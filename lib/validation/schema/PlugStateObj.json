@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Plug State Object",
+  "type": "object",
+  "properties": {
+    "deviceId": {
+      "required": true,
+      "type": "string"
+    },
+    "relayState": {
+      "required": true,
+      "type": "integer"
+    }
+  }
+}
