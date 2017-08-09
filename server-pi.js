@@ -123,7 +123,8 @@ new CronJob({
       });
     });
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 
 new CronJob({
@@ -132,20 +133,22 @@ new CronJob({
     startIrrigationValve(PLUG_DEVICE_ID_TOMATOES)
       .then(() => logger.info('Open tomatoe valve'))
       .catch(err => logger.error('Failed opening tomatoe valve', { error: err }));
-    startIrrigationValve(PLUG_DEVICE_ID_BALCONY)
-      .then(() => logger.info('Open balcony valve'))
-      .catch(err => logger.error('Failed opening balcony valve', { error: err }));
+    // startIrrigationValve(PLUG_DEVICE_ID_BALCONY)
+    //   .then(() => logger.info('Open balcony valve'))
+    //   .catch(err => logger.error('Failed opening balcony valve', { error: err }));
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 new CronJob({
   cronTime: '3 12 * * *',
   onTick: function() {
-    stopIrrigationValve(PLUG_DEVICE_ID_BALCONY)
-      .then(() => logger.info('Close balcony valve'))
-      .catch(err => logger.error('Failed closing balcony valve', { error: err }));
+    // stopIrrigationValve(PLUG_DEVICE_ID_BALCONY)
+    //   .then(() => logger.info('Close balcony valve'))
+    //   .catch(err => logger.error('Failed closing balcony valve', { error: err }));
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 new CronJob({
   cronTime: '5 12 * * *',
@@ -154,7 +157,8 @@ new CronJob({
       .then(() => logger.info('Close tomatoe valve'))
       .catch(err => logger.error('Failed closing tomatoe valve', { error: err }));
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 
 new CronJob({
@@ -163,20 +167,22 @@ new CronJob({
     startIrrigationValve(PLUG_DEVICE_ID_TOMATOES)
       .then(() => logger.info('Open tomatoe valve'))
       .catch(err => logger.error('Failed opening tomatoe valve', { error: err }));
-    startIrrigationValve(PLUG_DEVICE_ID_BALCONY)
-      .then(() => logger.info('Open balcony valve'))
-      .catch(err => logger.error('Failed opening balcony valve', { error: err }));
+    // startIrrigationValve(PLUG_DEVICE_ID_BALCONY)
+    //   .then(() => logger.info('Open balcony valve'))
+    //   .catch(err => logger.error('Failed opening balcony valve', { error: err }));
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 new CronJob({
   cronTime: '3 21 * * *',
   onTick: function() {
-    stopIrrigationValve(PLUG_DEVICE_ID_BALCONY)
-      .then(() => logger.info('Close balcony valve'))
-      .catch(err => logger.error('Failed closing balcony valve', { error: err }));
+    // stopIrrigationValve(PLUG_DEVICE_ID_BALCONY)
+    //   .then(() => logger.info('Close balcony valve'))
+    //   .catch(err => logger.error('Failed closing balcony valve', { error: err }));
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 new CronJob({
   cronTime: '5 21 * * *',
@@ -185,7 +191,8 @@ new CronJob({
       .then(() => logger.info('Close tomatoe valve'))
       .catch(err => logger.error('Failed closing tomatoe valve', { error: err }));
   },
-  start: true
+  start: true,
+  timeZone: 'Europe/Berlin'
 });
 
 app.listen(PORT, function() {
