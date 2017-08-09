@@ -88,20 +88,21 @@ const stopIrrigationValve = setIrrigationValve({
 const pythonScriptsStr = fs.readFileSync(PYTHON_SCRIPTS_FILEPATH);
 const pythonScripts = JSON.parse(pythonScriptsStr);
 const captureDistance = require('./lib/capture-distance');
+const fnCaptureDistance = function() {
+  return captureDistance({
+    exec: exec,
+    pythonScripts: pythonScripts,
+    repos: [
+      httpRepo,
+      mongoRepo
+    ]
+  });
+};
 
 const app = require('./lib/app-pi')({
   apiToken: API_TOKEN,
   buildMetadata: buildMetadata,
-  captureDistance: function() {
-    return captureDistance({
-      exec: exec,
-      pythonScripts: pythonScripts,
-      repos: [
-        httpRepo,
-        mongoRepo
-      ]
-    });
-  },
+  captureDistance: fnCaptureDistance,
   exec: exec,
   plugRepo: plugRepo,
   plugStateRepo: plugStateRepo,
@@ -111,6 +112,12 @@ const app = require('./lib/app-pi')({
   stopIrrigationValve: stopIrrigationValve
 });
 
+new CronJob({
+  cronTime: '*/30 * * * *',
+  onTick: fnCaptureDistance,
+  start: true,
+  timeZone: 'Europe/Berlin'
+});
 
 new CronJob({
   cronTime: '* * * * *',
