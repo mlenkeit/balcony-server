@@ -3,15 +3,16 @@
 const captureDistance = require('./lib/capture-distance');
 const fs = require('fs');
 const exec = require('./lib/util/exec');
+const logger = require('heroku-logger');
 const validateMeasurementObject = require('./lib/validation').validateMeasurementObject;
 
 const pythonScriptsFilepath = process.env.python_scripts_filepath;
 const pythonScriptsStr = fs.readFileSync(pythonScriptsFilepath);
 const pythonScripts = JSON.parse(pythonScriptsStr);
-console.log('python_scripts', pythonScripts);
+logger.info('python_scripts', pythonScripts);
 
 const measurementsFilepath = process.env.measurements_filepath;
-console.log('measurements_filepath', measurementsFilepath);
+logger.info('measurements_filepath', measurementsFilepath);
 const fileRepo = require('./lib/model/water-distance-measurement-file-repository')({
   filepath: measurementsFilepath,
   validate: validateMeasurementObject
@@ -41,8 +42,8 @@ captureDistance({
     mongoRepo
   ]
 }).then(() => {
-  console.log('success');
+  logger.info('success');
   mongoConnect().then(db => db.close());
 }).catch(err => {
-  console.log('error', err);
+  logger.info('error', err);
 });
