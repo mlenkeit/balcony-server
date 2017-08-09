@@ -175,7 +175,7 @@ data:    [0] /home/pi/Workspace/github/balcony-github-updater/index.js  /home/pi
 data:    [1] /home/pi/Workspace/local/simple-server/index.js            /home/pi/.forever/ykOt.log 
 data:    [2] /home/pi/Workspace/github/balcony-github-updater/second.js /home/pi/.forever/isH2.log 
 data:    [3] /home/pi/Workspace/github/balcony-server/server-pi.js      ${this.filepath} `;
-      this.exec.withArgs('sudo $(which forever) logs --no-colors').resolves(stdout);
+      this.exec.withArgs('sudo /home/pi/.nvm/versions/node/v8.2.1/bin/rever logs --no-colors').resolves(stdout);
     });
     
     context('with valid API token', function() {
