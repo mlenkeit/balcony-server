@@ -102,6 +102,7 @@ const app = require('./lib/app-pi')({
       ]
     });
   },
+  exec: exec,
   plugRepo: plugRepo,
   plugStateRepo: plugStateRepo,
   powerOn: powerOn,

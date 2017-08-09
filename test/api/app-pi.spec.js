@@ -3,8 +3,10 @@
 const chai = require('chai');
 const createPlugStateObject = require('./../fixture/create-plug-state-obj');
 const expect = require('chai').expect;
+const fs = require('fs');
 const request = require('supertest');
 const sinon = require('sinon');
+const tmp = require('tmp');
 const validatePublicPlugSysInfoObject = require('./../../lib/validation').validatePublicPlugSysInfoObject;
 
 chai.use(require('sinon-chai'));
@@ -36,10 +38,13 @@ describe('app-pi', function() {
     this.startIrrigationValve = sinon.stub().resolves();
     this.stopIrrigationValve = sinon.stub().resolves();
     
+    this.exec = sinon.stub().resolves('');
+    
     this.app = app({
       apiToken: this.validApiToken,
       buildMetadata: this.buildMetadata,
       captureDistance: this.captureDistance,
+      exec: this.exec,
       hs100Client: this.hs100Client,
       plugRepo: this.plugRepo,
       plugStateRepo: this.plugStateRepo,
@@ -156,6 +161,57 @@ describe('app-pi', function() {
       });
       
     });
+  });
+  
+  describe('/logs', function() {
+    
+    beforeEach(function() {
+      this.filepath = tmp.fileSync({ postfix: '.log' }).name;
+      this.logs = 'Hello Logs';
+      fs.writeFileSync(this.filepath, this.logs);
+      const stdout = `info:    Logs for running Forever processes
+data:        script                                                     logfile                    
+data:    [0] /home/pi/Workspace/github/balcony-github-updater/index.js  /home/pi/.forever/WgNb.log 
+data:    [1] /home/pi/Workspace/local/simple-server/index.js            /home/pi/.forever/ykOt.log 
+data:    [2] /home/pi/Workspace/github/balcony-github-updater/second.js /home/pi/.forever/isH2.log 
+data:    [3] /home/pi/Workspace/github/balcony-server/server-pi.js      ${this.filepath} `;
+      this.exec.withArgs('sudo $(which forever) logs --no-colors').resolves(stdout);
+    });
+    
+    context('with valid API token', function() {
+      
+      beforeEach(function() {
+        this.headers.Authorization = `token ${this.validApiToken}`;
+      });
+      
+      it('responds with 200 and the logs', function(done) {
+        request(this.app)
+          .get('/logs')
+          .set(this.headers)
+          .expect(200)
+          .expect('Content-Type', /text/)
+          .expect(this.logs)
+          .end(done);
+      });
+      
+    });
+    
+    context('with invalid API token', function() {
+      
+      beforeEach(function() {
+        this.headers.Authorization = `token ${this.invalidApiToken}`;
+      });
+      
+      it('responds with 401', function(done) {
+        request(this.app)
+          .get('/logs')
+          .set(this.headers)
+          .expect(401)
+          .expect('Content-Type', /json/)
+          .end(done);
+      });
+    });
+    
   });
   
   describe('/plugs', function() {
