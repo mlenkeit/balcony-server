@@ -88,5 +88,22 @@ describe('action/set-irrigation-valve', function() {
         });
     });
     
+    context('when the other plug is not available', function() {
+      
+      beforeEach(function() {
+        this.plugRepo.findById.withArgs(this.plugBalconyDeviceId).resolves(null);
+      });
+      
+      it('resolves and turns off the pump and the valve', function() {
+        return expect(this.setIrrigationValve(this.plugTomatoesDeviceId))
+          .to.eventually.be.fulfilled
+          .then(() => {
+            expect(this.plugOff).to.be.calledWith(this.plugPumpDeviceId);
+            expect(this.plugOff).to.be.calledWith(this.plugTomatoesDeviceId);
+          });
+      });
+      
+    });
+    
   });
 });
