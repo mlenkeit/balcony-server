@@ -2,6 +2,7 @@
 
 const createMeasurementObj = require('./../fixture/create-measurement-obj');
 const expect = require('chai').expect;
+const nock = require('nock');
 const request = require('supertest');
 
 const app = require('./../../lib/app');
@@ -30,6 +31,10 @@ describe('app', function() {
       linqueRepo: this.linqueRepo,
       waterDistanceMeasurementRepo: this.waterDistanceMeasurementRepo
     });
+  });
+  
+  afterEach('clean-up nock', function() {
+    nock.cleanAll();
   });
   
   describe('/health', function() {
@@ -106,13 +111,17 @@ describe('app', function() {
           const linkInfo = {
             url: 'http://test.com',
             last_update: '123'
-          };
+          };    
           this.linqueRepo.findOne.resolves(linkInfo);
+          
+          nock(linkInfo.url)
+            .get('/test')
+            .reply(204);
+          
           request(this.app)
-            .get('/linque/forward')
+            .get('/linque/forward/test')
             .set(this.headers)
-            .expect(302)
-            .expect('location', linkInfo.url)
+            .expect(204)
             .end(done);
         });
         
