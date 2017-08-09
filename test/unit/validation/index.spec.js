@@ -52,7 +52,7 @@ describe('validation', function() {
   describe('validatePlugState', function() {
     
     beforeEach(function() {
-      this.validate = validation.validatePlugStateObj;
+      this.validate = validation.validatePlugStateObject;
       this.obj = createPlugStateObj();
     });
     

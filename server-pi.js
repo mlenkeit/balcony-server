@@ -1,12 +1,15 @@
 'use strict';
 
 const assert = require('assert');
+const CronJob = require('cron').CronJob;
 const exec = require('./lib/util/exec');
 const fs = require('fs');
 const logger = require('heroku-logger');
 const path = require('path');
 const uuid = require('uuid/v4');
+const syncPowerState = require('./lib/action/sync-power-state');
 const validateMeasurementObject = require('./lib/validation').validateMeasurementObject;
+const validatePlugStateObject = require('./lib/validation').validatePlugStateObject;
 const xsenv = require('@sap/xsenv');
 
 xsenv.loadEnv();
@@ -42,9 +45,27 @@ const plugRepo = require('./lib/model/plug-repo')({
   discoverTimeout: 1000
 });
 
+const mongoConnect = require('./lib/model/mongodb-connector')({
+  url: MONGODB_URI
+});
+const mongoRepo = require('./lib/model/water-distance-measurement-mongo-repository')({
+  connect: mongoConnect,
+  validate: validateMeasurementObject
+});
+const plugStateRepo = require('./lib/model/plug-state-mongo-repo')({
+  connect: mongoConnect,
+  validate: validatePlugStateObject
+});
+
+const httpRepo = require('./lib/model/water-distance-measurement-http-repository')({
+  apiToken: API_TOKEN,
+  uri: HTTP_REPO_URI,
+  validate: validateMeasurementObject
+});
+
 const setPower = require('./lib/action/set-power');
-const powerOn = setPower({ plugRepo: plugRepo, value: true });
-const powerOff = setPower({ plugRepo: plugRepo, value: false });
+const powerOn = setPower({ plugRepo: plugRepo, plugStateRepo: plugStateRepo, value: true });
+const powerOff = setPower({ plugRepo: plugRepo, plugStateRepo: plugStateRepo, value: false });
 
 const setIrrigationValve = require('./lib/action/set-irrigation-valve');
 const startIrrigationValve = setIrrigationValve({
@@ -62,20 +83,6 @@ const stopIrrigationValve = setIrrigationValve({
   pumpPlugDeviceId: pumpPlugDeviceId,
   value: false,
   valvePlugDeviceIds: [tomatoesPlugDeviceId, balconyPlugDeviceId]
-});
-
-const mongoConnect = require('./lib/model/mongodb-connector')({
-  url: MONGODB_URI
-});
-const mongoRepo = require('./lib/model/water-distance-measurement-mongo-repository')({
-  connect: mongoConnect,
-  validate: validateMeasurementObject
-});
-
-const httpRepo = require('./lib/model/water-distance-measurement-http-repository')({
-  apiToken: API_TOKEN,
-  uri: HTTP_REPO_URI,
-  validate: validateMeasurementObject
 });
 
 const pythonScriptsStr = fs.readFileSync(pythonScriptsFilepath);
@@ -100,6 +107,22 @@ const app = require('./lib/app-pi')({
   powerOff: powerOff,
   startIrrigationValve: startIrrigationValve,
   stopIrrigationValve: stopIrrigationValve
+});
+
+
+new CronJob({
+  cronTime: '* * * * *',
+  onTick: function() {
+    syncPowerState({
+      plugRepo: plugRepo,
+      plugStateRepo: plugStateRepo
+    }).catch(err => {
+      logger.warn('Failed to sync power state', {
+        error: err
+      });
+    });
+  },
+  start: true
 });
 
 app.listen(PORT, function() {
