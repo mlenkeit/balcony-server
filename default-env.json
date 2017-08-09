@@ -4,6 +4,9 @@
   "PLUG_DEVICE_ID_PUMP": "80061CC3067FEB69203DADF6F8E6B86218996994",
   "PLUG_DEVICE_ID_TOMATOES": "800669CD6B59EBEA85B2254A0BDA9DFD18A22ABF",
   "PLUG_DEVICE_ID_BALCONY": "80062B71E8B1A8641A5C2F6D904D619C18989F4D",
+  "HTTP_REPO_URI": "http://localhost:4000",
+  "MONGODB_URI": "mongodb://localhost:27017",
+  "PYTHON_SCRIPTS_FILEPATH": "./default-services.json",
   "api_token": "123",
   "log_level": "info",
   "mongodb_service_name": "mongodb-traffic-lights"
