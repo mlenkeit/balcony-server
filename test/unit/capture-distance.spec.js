@@ -138,4 +138,39 @@ describe('capture-distance', function() {
     });
   });
   
+  context('when called with the same data multiple times', function() {
+    
+    it('returns the same promise if the first promise has not been resolved yet', function() {
+      const p1 = captureDistance({
+        pythonScripts: this.pythonScripts,
+        exec: this.exec,
+        repos: this.repos
+      });
+      const p2 = captureDistance({
+        pythonScripts: this.pythonScripts,
+        exec: this.exec,
+        repos: this.repos
+      });
+      expect(p1).to.equal(p2);
+    });
+    
+    it('returns a new promise after the previous one has been resolved', function() {
+      const p1 = captureDistance({
+        pythonScripts: this.pythonScripts,
+        exec: this.exec,
+        repos: this.repos
+      });
+      return p1.then(() => {
+        const p2 = captureDistance({
+          pythonScripts: this.pythonScripts,
+          exec: this.exec,
+          repos: this.repos
+        });
+        return p2.then(() => {
+          expect(p1).not.to.equal(p2);
+        }); 
+      });
+    });
+  });
+  
 });
