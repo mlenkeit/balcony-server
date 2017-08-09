@@ -24,6 +24,7 @@
   "dependencies": {
     "@sap/xsenv": "1.2.6",
     "body-parser": "1.17.2",
+    "cron": "1.2.1",
     "express": "4.15.3",
     "heroku-logger": "0.1.4",
     "hs100-api": "0.4.0",
