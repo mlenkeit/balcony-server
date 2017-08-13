@@ -131,7 +131,7 @@ new CronJob({
       });
     });
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 
@@ -145,7 +145,7 @@ new CronJob({
     //   .then(() => logger.info('Open balcony valve'))
     //   .catch(err => logger.error('Failed opening balcony valve', { error: err }));
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 new CronJob({
@@ -155,7 +155,7 @@ new CronJob({
     //   .then(() => logger.info('Close balcony valve'))
     //   .catch(err => logger.error('Failed closing balcony valve', { error: err }));
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 new CronJob({
@@ -165,7 +165,7 @@ new CronJob({
       .then(() => logger.info('Close tomatoe valve'))
       .catch(err => logger.error('Failed closing tomatoe valve', { error: err }));
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 
@@ -179,7 +179,7 @@ new CronJob({
     //   .then(() => logger.info('Open balcony valve'))
     //   .catch(err => logger.error('Failed opening balcony valve', { error: err }));
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 new CronJob({
@@ -189,7 +189,7 @@ new CronJob({
     //   .then(() => logger.info('Close balcony valve'))
     //   .catch(err => logger.error('Failed closing balcony valve', { error: err }));
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 new CronJob({
@@ -199,7 +199,7 @@ new CronJob({
       .then(() => logger.info('Close tomatoe valve'))
       .catch(err => logger.error('Failed closing tomatoe valve', { error: err }));
   },
-  start: true,
+  start: false,
   timeZone: 'Europe/Berlin'
 });
 
